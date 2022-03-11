@@ -9,7 +9,7 @@ internal class MemoryRepositoryImpl(private val memoryDao: MemoryDao) : Calculat
 
     override suspend fun getAll(): List<Calculation> = withContext(Dispatchers.IO) {
         memoryDao.getAll().map {
-            it.convertToCalculation()
+            it.toCalculation()
         }
     }
 
@@ -19,13 +19,6 @@ internal class MemoryRepositoryImpl(private val memoryDao: MemoryDao) : Calculat
                 expression = calculation.expression,
                 result = calculation.result
             )
-        )
-    }
-
-    private fun Memory.convertToCalculation(): Calculation {
-        return Calculation(
-            expression = this.expression,
-            result = this.result
         )
     }
 }
